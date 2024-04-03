@@ -6,7 +6,7 @@ from torch import optim
 from utilss import LabelSmoothingLoss, GradualWarmupScheduler
 import  time
 from torch.autograd import Variable
-import  Coral
+import  Distance
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
