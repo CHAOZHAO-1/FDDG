@@ -15,22 +15,6 @@ def guassian_kernel(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None
     kernel_val = [torch.exp(-L2_distance / bandwidth_temp) for bandwidth_temp in bandwidth_list]
     return sum(kernel_val)#/len(kernel_val)
 
-
-def CORAL(source, target):
-    d = source.data.shape[1]
-
-    # source covariance
-    xm = torch.mean(source, 1, keepdim=True) - source
-    xc = torch.matmul(torch.transpose(xm, 0, 1), xm)
-
-    # target covariance
-    xmt = torch.mean(target, 1, keepdim=True) - target
-    xct = torch.matmul(torch.transpose(xmt, 0, 1), xmt)
-    # frobenius norm between source and target
-    loss = torch.mean(torch.mul((xc - xct), (xc - xct)))
-    loss = loss/(4*d*4)
-    return loss
-
 def mmd_rbf_noaccelerate(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None):
     batch_size = int(source.size()[0])
     kernels = guassian_kernel(source, target,
